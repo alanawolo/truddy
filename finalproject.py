@@ -3,8 +3,8 @@
 
 import requests
 import sqlite3
-import spotifyinfo
-import yelpinfo
+import spotifyinfo, yelpinfo, skyscanner
+
 
 
 def get_data(database):
