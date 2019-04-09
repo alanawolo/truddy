@@ -38,3 +38,6 @@ def get_data(database):
     "outboundDate": "2019-07-01",
     "adults": 3
   })
+    db_data = cur.execute('SELECT * FROM Restaurants')
+    return 'Database created'
+print(get_data('final_project.sqlite'))
