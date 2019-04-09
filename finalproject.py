@@ -14,14 +14,15 @@ def get_data(database):
     cur.execute('SELECT * FROM Restaurants')
     data = cur.fetchall()
 
-    params_dict = {'Authorization': 'Bearer' + yelpinfo.api}
-    r1 = requests.get('https://api.yelp.com/v3/businesses/search?location=Amsterdam&categories=dinner&limit=20', params = params_dict)
+    params_dict = {'Authorization':'Bearer '+yelpinfo.api}
+    r1 = requests.get('https://api.yelp.com/v3/businesses/search?location=Amsterdam&categories=dinner&limit=20', headers = params_dict)
+    print(r1.json())
     for x in r1.json()['businesses']:
       rating = x['rating']
       restaurant_name= x['name']
       reviews= x['review_count']
       city= x['location']['city']
-      cur.execute('INSERT INTO Restaurants (restaurant_name, rating, reviews, city) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
+      cur.execute('INSERT INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
     conn.commit()
 
     cur.execute('CREATE TABLE IF NOT EXISTS Flights (number INTEGER, price INTEGER, airline TEXT, time INTEGER)')
