@@ -10,7 +10,7 @@ import spotifyinfo, yelpinfo, skyscanner
 def get_data(database):
     conn = sqlite3.connect(database)
     cur = conn.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS Restaurants (name TEXT, rating DECIMAL, reviews INTEGER, country TEXT')
+    cur.execute('CREATE TABLE IF NOT EXISTS Restaurants (name TEXT, rating DECIMAL, reviews INTEGER, country TEXT)')
     cur.execute('SELECT * FROM Restaurants')
     data = cur.fetchall()
 
@@ -24,6 +24,9 @@ def get_data(database):
       cur.execute('INSERT INTO Restaurants (restaurant_name, rating, reviews, city) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
     conn.commit()
 
+    cur.execute('CREATE TABLE IF NOT EXISTS Flights (number INTEGER, price INTEGER, airline TEXT, time INTEGER)')
+    cur.execute('SELECT * FROM Flights')
+    data = cur.fetchall()
     r2 = requests.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",headers={
     "X-RapidAPI-Host": skyscanner.apihost, "X-RapidAPI-Key": skyscanner.apikey, "Content-Type": "application/x-www-form-urlencoded"}, params ={
     "inboundDate": "2019-06-10",
