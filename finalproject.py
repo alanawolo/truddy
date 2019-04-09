@@ -3,8 +3,7 @@
 
 import requests
 import sqlite3
-import spotifyinfo, yelpinfo, skyscanner
-
+import spotifyinfo, yelpinfo, weather
 
 
 def get_data(database):
@@ -16,7 +15,7 @@ def get_data(database):
 
     params_dict = {'Authorization':'Bearer '+yelpinfo.api}
     r1 = requests.get('https://api.yelp.com/v3/businesses/search?location=Amsterdam&categories=dinner&limit=20', headers = params_dict)
-    print(r1.json())
+
     for x in r1.json()['businesses']:
       rating = x['rating']
       restaurant_name= x['name']
@@ -25,23 +24,21 @@ def get_data(database):
       cur.execute('INSERT INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
     conn.commit()
 
-    cur.execute('CREATE TABLE IF NOT EXISTS Flights (number INTEGER, price INTEGER, airline TEXT, time INTEGER)')
-    cur.execute('SELECT * FROM Flights')
+    cur.execute('CREATE TABLE IF NOT EXISTS Weather (main TEXT, description TEXT, temp INTEGER, humidity INTEGER)')
+    cur.execute('SELECT * FROM Weather')
     data = cur.fetchall()
-    r2 = requests.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",headers={
-    "X-RapidAPI-Host": skyscanner.apihost, "X-RapidAPI-Key": skyscanner.apikey, "Content-Type": "application/x-www-form-urlencoded"}, params ={
-    "inboundDate": "2019-06-10",
-    "cabinClass": "business",
-    "children": 0,
-    "infants": 0,
-    "country": "US",
-    "currency": "USD",
-    "locale": "en-US",
-    "originPlace": "DTW-sky",
-    "destinationPlace": "AMS-sky",
-    "outboundDate": "2019-07-01",
-    "adults": 3
-  })
+    
+    #this ket should be updated in a couple hours
+    r2 = requests.get('https://api.openweathermap.org/data/2.5/weather/?q=Amsterdam&cnt=20&APPID=318f31fd15810fe42b21f896c93c2779')
+    print(r2.json())
+    for x in r2.json()['weather']:
+      main = x[0]['main']
+      desc= x[0]['description']
+      temp= x["main"]['temp']
+      hum= x['main']['humidity']
+      cur.execute('INSERT INTO Weather (main, description, temp, humidity) VALUES (?, ?, ?, ?)', (main, desc, temp, hum))
+    conn.commit()
+
     db_data = cur.execute('SELECT * FROM Restaurants')
     return 'Database created'
 print(get_data('final_project.sqlite'))
