@@ -39,6 +39,21 @@ def get_data(database):
       cur.execute('INSERT INTO Weather (main, description, temp, humidity) VALUES (?, ?, ?, ?)', (main, desc, temp, hum))
     conn.commit()
 
+    cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, contentRatingAdvisory TEXT, trackTimeMillis)')
+    cur.execute('SELECT * FROM Playlist')
+    data = cur.fetchall()
+
+    params_dict = {'term': artistName}
+    r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
+    print(r3.json())
+    for x in r3.json()['businesses']:
+      artistName = x['artistName']
+      trackName= x['trackName']
+      contentRatingAdvisory= x['contentRatingAdvisory']
+      trackTimeMillis = x['trackTimeMillis']
+      cur.execute('INSERT INTO PLaylist (artistName, trackName, contentRatingAdvisory, trackTimeMillis) VALUES (?, ?, ?, ?)', (artistName, trackName, contentRatingAdvisory, trackTimeMillis))
+    conn.commit()
+
     db_data = cur.execute('SELECT * FROM Restaurants')
     return 'Database created'
 print(get_data('final_project.sqlite'))
