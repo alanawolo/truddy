@@ -24,23 +24,20 @@ def get_data(database):
       cur.execute('INSERT OR IGNORE INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
     conn.commit()
 
-    cur.execute('CREATE TABLE IF NOT EXISTS Weather ( temp INTEGER, pres, INTEGER, humidity INTEGER, mintemp INTEGER, maxtemp INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS Weather (temp INTEGER, humidity INTEGER, mintemp INTEGER, maxtemp INTEGER)')
     cur.execute('SELECT * FROM Weather')
     data = cur.fetchall()
     
     #this ket should be updated in a couple hours
     r2 = requests.get('https://api.openweathermap.org/data/2.5/weather/?q=Amsterdam&cnt=20&APPID=318f31fd15810fe42b21f896c93c2779')
-    print(r2.json())
-    templst = []
-
-    for x in r2.json()['main'].items():
-      print(x)
-      #temp= x[1]
-      #hum= x[2]
-      #mintemp = x[3]
-      #maxtemp = x[4]
-      #cur.execute('INSERT INTO Weather (temp, humidity, pressure, mintemp,maxtemp) VALUES (?, ?, ?, ?)', (temp,pres, hum, mintemp,maxtemp))
-    #conn.commit()
+    for x in r2.json().items():
+      if x[0] == 'main':
+        temp = x[1]['temp']
+        hum= x[1]['humidity']
+        mintemp = x[1]['temp_min']
+        maxtemp = x[1]['temp_max']
+        cur.execute('INSERT INTO Weather (temp, humidity, mintemp,maxtemp) VALUES (?, ?, ?, ?)', (temp,hum, mintemp,maxtemp))
+    conn.commit()
 
     cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
     cur.execute('SELECT * FROM Playlist')
