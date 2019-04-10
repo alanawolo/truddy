@@ -50,7 +50,7 @@ def get_data(database):
       artistName = x['artistName']
       trackName= x['trackName']
       trackTimeMillis = x['trackTimeMillis']
-      cur.execute('INSERT OR IGNORE INTO PLaylist (artistName, trackName, trackTimeMillis) VALUES (?, ?, ?)', (artistName, trackName, trackTimeMillis))
+      cur.execute('INSERT OR IGNORE INTO Playlist (artistName, trackName, trackTimeMillis) VALUES (?, ?, ?)', (artistName, trackName, trackTimeMillis))
     conn.commit()
     cur.execute('SELECT * FROM Playlist')
     data = cur.fetchall()
