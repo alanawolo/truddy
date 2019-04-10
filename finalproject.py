@@ -31,19 +31,19 @@ def get_data(database):
     #this ket should be updated in a couple hours
     r2 = requests.get('https://api.openweathermap.org/data/2.5/weather/?q=Amsterdam&cnt=20&APPID=318f31fd15810fe42b21f896c93c2779')
     print(r2.json())
-    for x in r2.json()['weather']:
-      main = x['weather']['main']
-      desc= x['weather']['description']
-      temp= x['temp']
-      hum= x['humidity']
-      cur.execute('INSERT INTO Weather (main, description, temp, humidity) VALUES (?, ?, ?, ?)', (main, desc, temp, hum))
-    conn.commit()
+    #for x in r2.json()['weather']:
+      #main = x['weather']['main']
+      #desc= x['weather']['description']
+      #temp= x['temp']
+      #hum= x['humidity']
+      #cur.execute('INSERT INTO Weather (main, description, temp, humidity) VALUES (?, ?, ?, ?)', (main, desc, temp, hum))
+    #conn.commit()
 
     cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, contentRatingAdvisory TEXT, trackTimeMillis)')
     cur.execute('SELECT * FROM Playlist')
     data = cur.fetchall()
 
-    params_dict = {'term': artistName}
+    params_dict = params = {'term': 'Amsterdam', 'country': "US", 'media': 'music'}
     r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
     print(r3.json())
     for x in r3.json()['businesses']:
