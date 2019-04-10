@@ -42,7 +42,7 @@ def get_data(database):
       #cur.execute('INSERT INTO Weather (temp, humidity, pressure, mintemp,maxtemp) VALUES (?, ?, ?, ?)', (temp,pres, hum, mintemp,maxtemp))
     #conn.commit()
 
-    cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, contentRatingAdvisory TEXT, trackTimeMillis)')
+    cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistId INT, trackName TEXT, trackTimeMillis INT)')
     cur.execute('SELECT * FROM Playlist')
     data = cur.fetchall()
 
@@ -50,11 +50,10 @@ def get_data(database):
     r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
     print(r3.json())
     for x in r3.json()['results']:
-      artistName = x['artistName']
+      artistId = x['artistId']
       trackName= x['trackName']
-      contentRatingAdvisory= x['contentRatingAdvisory']
       trackTimeMillis = x['trackTimeMillis']
-      cur.execute('INSERT OR IGNORE INTO PLaylist (artistName, trackName, contentRatingAdvisory, trackTimeMillis) VALUES (?, ?, ?, ?)', (artistName, trackName, contentRatingAdvisory, trackTimeMillis))
+      cur.execute('INSERT OR IGNORE INTO PLaylist (artistId, trackName, trackTimeMillis) VALUES (?, ?, ?, ?)', (artistId, trackName, trackTimeMillis))
     conn.commit()
 
     db_data = cur.execute('SELECT * FROM Restaurants, Weather,Playlist')
