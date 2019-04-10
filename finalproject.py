@@ -21,7 +21,7 @@ def get_data(database):
       restaurant_name= x['name']
       reviews= x['review_count']
       city= x['location']['city']
-      cur.execute('INSERT INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
+      cur.execute('INSERT OR IGNORE INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
     conn.commit()
 
     cur.execute('CREATE TABLE IF NOT EXISTS Weather ( temp INTEGER, pres, INTEGER, humidity INTEGER, mintemp INTEGER, maxtemp INTEGER)')
@@ -53,7 +53,7 @@ def get_data(database):
       trackName= x['trackName']
       contentRatingAdvisory= x['contentRatingAdvisory']
       trackTimeMillis = x['trackTimeMillis']
-      cur.execute('INSERT INTO PLaylist (artistName, trackName, contentRatingAdvisory, trackTimeMillis) VALUES (?, ?, ?, ?)', (artistName, trackName, contentRatingAdvisory, trackTimeMillis))
+      cur.execute('INSERT OR IGNORE INTO PLaylist (artistName, trackName, contentRatingAdvisory, trackTimeMillis) VALUES (?, ?, ?, ?)', (artistName, trackName, contentRatingAdvisory, trackTimeMillis))
     conn.commit()
 
     db_data = cur.execute('SELECT * FROM Restaurants, Weather,Playlist')
