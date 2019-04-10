@@ -32,10 +32,10 @@ def get_data(database):
     r2 = requests.get('https://api.openweathermap.org/data/2.5/weather/?q=Amsterdam&cnt=20&APPID=318f31fd15810fe42b21f896c93c2779')
     print(r2.json())
     for x in r2.json()['weather']:
-      main = x[0]['main']
-      desc= x[0]['description']
-      temp= x["main"]['temp']
-      hum= x['main']['humidity']
+      main = x['weather']['main']
+      desc= x['weather']['description']
+      temp= x['temp']
+      hum= x['humidity']
       cur.execute('INSERT INTO Weather (main, description, temp, humidity) VALUES (?, ?, ?, ?)', (main, desc, temp, hum))
     conn.commit()
 
@@ -54,6 +54,6 @@ def get_data(database):
       cur.execute('INSERT INTO PLaylist (artistName, trackName, contentRatingAdvisory, trackTimeMillis) VALUES (?, ?, ?, ?)', (artistName, trackName, contentRatingAdvisory, trackTimeMillis))
     conn.commit()
 
-    db_data = cur.execute('SELECT * FROM Restaurants')
+    db_data = cur.execute('SELECT * FROM Restaurants, Weather,Playlist')
     return 'Database created'
 print(get_data('final_project.sqlite'))
