@@ -48,7 +48,8 @@ def get_data(database):
 
     params_dict = params = {'term': 'Amsterdam', 'country': "US", 'media': 'music'}
     r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
-    for x in r3.json()['businesses']:
+    print(r3.json())
+    for x in r3.json()['results']:
       artistName = x['artistName']
       trackName= x['trackName']
       contentRatingAdvisory= x['contentRatingAdvisory']
