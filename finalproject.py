@@ -9,7 +9,7 @@ import spotifyinfo, yelpinfo, weather
 def get_data(database):
     conn = sqlite3.connect(database)
     cur = conn.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS Restaurants (name TEXT, rating DECIMAL, reviews INTEGER, country TEXT)')
+    cur.execute('CREATE TABLE IF NOT EXISTS Restaurants (name TEXT PRIMARY KEY, rating DECIMAL, reviews INTEGER, country TEXT)')
     cur.execute('SELECT * FROM Restaurants')
     data = cur.fetchall()
 
