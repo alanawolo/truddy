@@ -42,20 +42,22 @@ def get_data(database):
       #cur.execute('INSERT INTO Weather (temp, humidity, pressure, mintemp,maxtemp) VALUES (?, ?, ?, ?)', (temp,pres, hum, mintemp,maxtemp))
     #conn.commit()
 
-    cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistId INT, trackName TEXT, trackTimeMillis INT)')
+    cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
     cur.execute('SELECT * FROM Playlist')
     data = cur.fetchall()
 
-    params_dict = params = {'term': 'Amsterdam', 'country': "US", 'media': 'music'}
+    params_dict = {'term': 'Amsterdam', 'country': "US", 'media': 'music'}
     r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
     print(r3.json())
     for x in r3.json()['results']:
-      artistId = x['artistId']
+      artistName = x['artistName']
       trackName= x['trackName']
       trackTimeMillis = x['trackTimeMillis']
-      cur.execute('INSERT OR IGNORE INTO PLaylist (artistId, trackName, trackTimeMillis) VALUES (?, ?, ?, ?)', (artistId, trackName, trackTimeMillis))
+      cur.execute('INSERT OR IGNORE INTO PLaylist (artistName, trackName, trackTimeMillis) VALUES (?, ?, ?)', (artistName, trackName, trackTimeMillis))
     conn.commit()
+    cur.execute('SELECT * FROM Playlist')
+    data = cur.fetchall()
 
-    db_data = cur.execute('SELECT * FROM Restaurants, Weather,Playlist')
+    db_data = cur.execute('SELECT * FROM Restaurants, Weather, Playlist')
     return 'Database created'
 print(get_data('final_project.sqlite'))
