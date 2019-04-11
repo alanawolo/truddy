@@ -32,11 +32,11 @@ def get_data(database):
     r2 = requests.get('https://api.openweathermap.org/data/2.5/weather/?q=Amsterdam&cnt=20&APPID=318f31fd15810fe42b21f896c93c2779')
     for x in r2.json().items():
       if x[0] == 'main':
-        temp = x[1]['temp']
-        hum= x[1]['humidity']
-        mintemp = x[1]['temp_min']
-        maxtemp = x[1]['temp_max']
-        cur.execute('INSERT INTO Weather (temp, humidity, mintemp,maxtemp) VALUES (?, ?, ?, ?)', (temp,hum, mintemp,maxtemp))
+        _temp = x[1]['temp']
+        _humidity = x[1]['humidity']
+        _mintemp = x[1]['temp_min']
+        _maxtemp = x[1]['temp_max']
+        cur.execute('INSERT INTO Weather (temp, humidity, mintemp, maxtemp) VALUES (?, ?, ?, ?)', (temp, hum, mintemp, maxtemp))
     conn.commit()
 
     cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
@@ -46,14 +46,15 @@ def get_data(database):
     params_dict = {'term': 'Amsterdam', 'country': "US", 'media': 'music'}
     r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
     print(r3.json())
-    for x in r3.json()['results']:
-      artistName = x['artistName']
-      trackName= x['trackName']
-      trackTimeMillis = x['trackTimeMillis']
-      cur.execute('INSERT OR IGNORE INTO Playlist (artistName, trackName, trackTimeMillis) VALUES (?, ?, ?)', (artistName, trackName, trackTimeMillis))
-    conn.commit()
-    cur.execute('SELECT * FROM Playlist')
-    data = cur.fetchall()
+    for y in range(20):
+      for x in r3.json()['results']:
+        artistName = x['artistName']
+        trackName= x['trackName']
+        trackTimeMillis = x['trackTimeMillis']
+        cur.execute('INSERT OR IGNORE INTO Playlist (artistName, trackName, trackTimeMillis) VALUES (?, ?, ?)', (artistName, trackName, trackTimeMillis))
+      conn.commit()
+      cur.execute('SELECT * FROM Playlist')
+      data = cur.fetchall()
 
     db_data = cur.execute('SELECT * FROM Restaurants, Weather, Playlist')
     return 'Database created'
