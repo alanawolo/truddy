@@ -4,6 +4,7 @@
 import requests
 import sqlite3
 import spotifyinfo, yelpinfo, weather
+import matplotlib.pyplot as plt
 
 
 def get_data(database):
@@ -95,6 +96,41 @@ def get_data(database):
     count += 1
   average_song_length_in_seconds = (total/count)
   print(average_song_length_in_seconds)
+
+
+
+# PLOTS!!!!!!!
+
+# Restaurants plot ... plotting the ratings of the restaurants
+  cur.execute('SELECT name FROM Restaurants')
+  name_list = []
+  for name in cur:
+    name_list.append(name[0])
+
+  cur.execute('SELECT rating FROM Restaurants')
+  ratings_list = []
+  for rate in cur:
+    ratings_list.append(rate[0])
+
+  data = {}
+  count = 0
+  for x in name_list:
+    if x not in data:
+      data[x] = ratings_list[count]
+    count += 1 
+
+  plt.bar(name_list, ratings_list, align='center', color = ['magenta', 'red', 'indigo', 'blue', 'orange', 'pink', 'purple', 'violet', 'green', 'black', 'gray', 'yellow', 'navy', 'teal', 'aquamarine', 'cyan', 'lime', 'blueviolet', 'lavender', 'plum'])
+  plt.ylabel('Rating')
+  plt.xlabel('Restaurant Name')
+  plt.title('Ratings of Amsterdam Restaurants')
+  plt.savefig('Restaurant_Plot.png')
+  plt.show()  
+
+  
+
+
+
+
 
   return 'Database Created'
 print(get_data('final_project.sqlite'))
