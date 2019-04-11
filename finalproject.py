@@ -91,12 +91,10 @@ def get_data(database):
   total = 0
   count = 0
   for time in cur:
-    time_in_seconds = time[0] * (0.001//1)
+    time_in_seconds = time[0] * (0.001/1)
     total += time_in_seconds
     count += 1
-  average_song_length_in_seconds = (total//count)
+  average_song_length_in_seconds = (total/count)
   print(average_song_length_in_seconds)
-
-  return average_restaurant_rating, average_song_length_in_seconds
 
 print(get_data('final_project.sqlite'))
