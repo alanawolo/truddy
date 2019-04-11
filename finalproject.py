@@ -13,7 +13,7 @@ def get_data(database):
     cur.execute('SELECT * FROM Restaurants')
     data = cur.fetchall()
 
-    params_dict = {'Authorization':'Bearer '+yelpinfo.api}
+    params_dict = {'Authorization':'Bearer ' + yelpinfo.api}
     r1 = requests.get('https://api.yelp.com/v3/businesses/search?location=Amsterdam&categories=dinner&limit=20', headers = params_dict)
 
     for x in r1.json()['businesses']:
