@@ -72,6 +72,26 @@ def get_data(database):
 
 print(get_data('final_project.sqlite'))
 
-# calculations
-# for Restaurants ... average rating of a Restaurant in Amsterdam = ?
-# for Playlist ... average song length
+# CALCULATIONS
+
+# Restaurants
+# average rating of a Restaurant in Amsterdam = ?
+# cur.execute('SELECT rating FROM Restaurant')
+# total = 0
+# count = 0
+# for rate in cur:
+    # total += rate
+    # count += 1
+# average_restaurant_rating = (total/count)
+
+
+# Playlist
+# average song length
+# cur.execute('SELECT trackTimeMillis FROM Playlist')
+# total = 0
+# count = 0
+# for time in cur:
+    # time_in_seconds = time * (0.001/1) HOW DO YOU MAKE IT A FLOAT ANSWER // OR /
+    # total += time_in_seconds
+    # count += 1
+# average_song_length_in_seconds = (total/count)
