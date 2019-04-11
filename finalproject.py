@@ -32,11 +32,11 @@ def get_data(database):
     r2 = requests.get('https://api.openweathermap.org/data/2.5/weather/?q=Amsterdam&cnt=20&APPID=318f31fd15810fe42b21f896c93c2779')
     for x in r2.json().items():
       if x[0] == 'main':
-        _temp = x[1]['temp']
-        _humidity = x[1]['humidity']
-        _mintemp = x[1]['temp_min']
-        _maxtemp = x[1]['temp_max']
-        cur.execute('INSERT INTO Weather (temp, humidity, mintemp, maxtemp) VALUES (?, ?, ?, ?)', (temp, hum, mintemp, maxtemp))
+        temp = x[1]['temp']
+        humidity = x[1]['humidity']
+        mintemp = x[1]['temp_min']
+        maxtemp = x[1]['temp_max']
+        cur.execute('INSERT INTO Weather (temp, humidity, mintemp, maxtemp) VALUES (?, ?, ?, ?)', (temp, humidity, mintemp, maxtemp))
     conn.commit()
 
     cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
