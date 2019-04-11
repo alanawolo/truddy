@@ -15,7 +15,6 @@ def get_data(database):
   data = cur.fetchall()
   params_dict = {'Authorization':'Bearer ' + yelpinfo.api}
   r1 = requests.get('https://api.yelp.com/v3/businesses/search?location=Amsterdam&categories=dinner&limit=20', headers = params_dict)
-  print(len(r1.json()['businesses']))
   for x in r1.json()['businesses']:
     rating = x['rating']
     restaurant_name= x['name']
@@ -97,4 +96,6 @@ def get_data(database):
   average_song_length_in_seconds = (total/count)
   print(average_song_length_in_seconds)
 
+  return 'Database Created'
 print(get_data('final_project.sqlite'))
+
