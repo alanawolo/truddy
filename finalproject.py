@@ -16,6 +16,7 @@ def get_data(database):
     params_dict = {'Authorization':'Bearer ' + yelpinfo.api}
     r1 = requests.get('https://api.yelp.com/v3/businesses/search?location=Amsterdam&categories=dinner&limit=20', headers = params_dict)
 
+    print(len(r1.json()['businesses']))
     for x in r1.json()['businesses']:
       rating = x['rating']
       restaurant_name= x['name']
@@ -24,7 +25,7 @@ def get_data(database):
       cur.execute('INSERT OR IGNORE INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
     conn.commit()
 
-    cur.execute('CREATE TABLE IF NOT EXISTS Weather (temp INTEGER, humidity INTEGER, mintemp INTEGER, maxtemp INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS Weather (temp INT, humidity INT, mintemp INT, maxtemp INT)')
     cur.execute('SELECT * FROM Weather')
     data = cur.fetchall()
     
@@ -39,23 +40,23 @@ def get_data(database):
         cur.execute('INSERT INTO Weather (temp, humidity, mintemp, maxtemp) VALUES (?, ?, ?, ?)', (temp, humidity, mintemp, maxtemp))
     conn.commit()
 
-    cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
-    cur.execute('SELECT * FROM Playlist')
-    data = cur.fetchall()
+    # cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
+    # cur.execute('SELECT * FROM Playlist')
+    # data = cur.fetchall()
 
-    params_dict = {'term': 'Amsterdam', 'country': "US", 'media': 'music'}
-    r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
-    print(r3.json())
-    for y in range(20):
-      for x in r3.json()['results']:
-        artistName = x['artistName']
-        trackName= x['trackName']
-        trackTimeMillis = x['trackTimeMillis']
-        cur.execute('INSERT OR IGNORE INTO Playlist (artistName, trackName, trackTimeMillis) VALUES (?, ?, ?)', (artistName, trackName, trackTimeMillis))
-      conn.commit()
-      cur.execute('SELECT * FROM Playlist')
-      data = cur.fetchall()
+    # params_dict = {'term': 'Amsterdam', 'country': "US", 'media': 'music'}
+    # r3 = requests.get('https://itunes.apple.com/search?', params = params_dict)
+    # print(r3.json())
+    # for y in range(20):
+    #   for x in r3.json()['results']:
+    #     artistName = x['artistName']
+    #     trackName= x['trackName']
+    #     trackTimeMillis = x['trackTimeMillis']
+    #     cur.execute('INSERT OR IGNORE INTO Playlist (artistName, trackName, trackTimeMillis) VALUES (?, ?, ?)', (artistName, trackName, trackTimeMillis))
+    #   conn.commit()
+    #   cur.execute('SELECT * FROM Playlist')
+    #   data = cur.fetchall()
 
-    db_data = cur.execute('SELECT * FROM Restaurants, Weather, Playlist')
+    db_data = cur.execute('SELECT * FROM Restaurants, Weather')
     return 'Database created'
 print(get_data('final_project.sqlite'))
