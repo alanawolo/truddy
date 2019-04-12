@@ -131,14 +131,12 @@ def get_data(database):
   song_list = []
   for song in cur:
     song_list.append(song[0])
-  print(song_list)
 
   cur.execute('SELECT trackTimeMillis FROM Playlist')
   times_list = []
   for time in cur:
     time_in_seconds = time[0] * (0.001/1)
     times_list.append(time_in_seconds)
-  print(times_list)
 
   data = {}
   count2 = 0
