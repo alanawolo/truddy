@@ -126,6 +126,34 @@ def get_data(database):
   plt.savefig('Restaurant_Plot.png')
   plt.show()  
 
+  # Playlist plot ... plotting the length of songs
+  cur.execute('SELECT trackName FROM Playlist')
+  song_list = []
+  for song in cur:
+    song_list.append(song[0])
+  print(song_list)
+
+  cur.execute('SELECT trackTimeMillis FROM Playlist')
+  times_list = []
+  for time in cur:
+    time_in_seconds = time[0] * (0.001/1)
+    times_list.append(time_in_seconds)
+  print(times_list)
+
+  data = {}
+  count2 = 0
+  for x in song_list:
+    if x not in data:
+      data[x] = times_list[count2]
+    count2 += 1 
+
+  plt.bar(song_list, times_list, align='center', color = ['magenta', 'red', 'indigo', 'blue', 'orange', 'pink', 'purple', 'violet', 'green', 'black', 'gray', 'yellow', 'navy', 'teal', 'aquamarine', 'cyan', 'lime', 'blueviolet', 'lavender', 'plum'])
+  plt.ylabel('Time')
+  plt.xlabel('Song Name')
+  plt.title('Length of Songs')
+  plt.savefig('Playlist_Plot.png')
+  plt.show() 
+
   
 
 
