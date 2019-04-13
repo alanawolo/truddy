@@ -152,12 +152,6 @@ def get_data(database):
   plt.savefig('Playlist_Plot.png')
   plt.show() 
 
-  
-
-
-
-
-
   return 'Database Created'
 print(get_data('final_project.sqlite'))
 
