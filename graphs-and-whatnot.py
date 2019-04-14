@@ -35,7 +35,7 @@ cur = conn.cursor()
 
 cur.execute('SELECT * from Restaurant')
 # create weather something list or dict idk - Dictionary to hold ratings and resturant names.
-for x in 
+#for x in 
 
 # Get the data that needs to be plotted on x-axis
 #xvals = [names idk]

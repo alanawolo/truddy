@@ -3,7 +3,7 @@
 
 import requests
 import sqlite3
-import spotifyinfo, yelpinfo, weather
+import spotifyinfo, yelpinfo
 import matplotlib.pyplot as plt
 
 
@@ -23,21 +23,6 @@ def get_data(database):
     city= x['location']['city']
     cur.execute('INSERT OR IGNORE INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
   conn.commit()
-
-  # Weather Data
-  # cur.execute('CREATE TABLE IF NOT EXISTS Weather (temp INT, humidity INT, mintemp INT, maxtemp INT)')
-  # cur.execute('SELECT * FROM Weather')
-  # data = cur.fetchall()
-  # r2 = requests.get('https://api.openweathermap.org/data/2.5/weather/?q=Amsterdam&cnt=20&APPID=318f31fd15810fe42b21f896c93c2779')
-  # print(len(r2.json().items()))
-  # for x in r2.json().items():
-  #   if x[0] == 'main':
-  #     temp = x[1]['temp']
-  #     humidity = x[1]['humidity']
-  #     mintemp = x[1]['temp_min']
-  #     maxtemp = x[1]['temp_max']
-  #     cur.execute('INSERT INTO Weather (temp, humidity, mintemp, maxtemp) VALUES (?, ?, ?, ?)', (temp, humidity, mintemp, maxtemp))
-  # conn.commit()
 
   # StubHub Data
   # cur.execute('CREATE TABLE IF NOT EXISTS Events (name TEXT, venue OBJECT, minPrice STRING)')
