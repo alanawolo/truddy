@@ -25,18 +25,20 @@ def get_data(database):
   conn.commit()
 
   # currency Data
-  cur.execute('CREATE TABLE IF NOT EXISTS Currency (base TEXT, date TEXT, rates INTEGER)')
+  cur.execute('CREATE TABLE IF NOT EXISTS Currency (date TEXT, USD INTEGER, EUR INTEGER)')
   cur.execute('SELECT * FROM Currency')
   data = cur.fetchall()
-  r2 = requests.get('http://data.fixer.io/api/latest?access_key=b771d2bacf30d6e399a7a45e4693bdfa&symbols=USD,EUR,AUD,CAD,MXN')
+  date = '2000-01-01'
+  url = 'http://data.fixer.io/api/{}?access_key=b771d2bacf30d6e399a7a45e4693bdfa&symbols=USD,EUR'.format(date)
+  r2 = requests.get(url)
   print(r2.json())
-  for x in r2.json()['rates'].items():
-    print(x)
-    base = x['base'] #have to change this stuff yolo
-    date = x['date']
-    rates = x['rates'][0]
-    cur.execute('INSERT INTO Events (base, date, rates) VALUES (?, ?, ?)', (base, date, rates))
-  conn.commit()
+  #for x in r2.json():
+    #date = x[4]
+    #for y in x['rates']:
+      #usd = y[0]
+      #eur = x[5][1]
+    #cur.execute('INSERT INTO Events (date, USD, EUR) VALUES (?, ?, ?)', (date, usd, eur))
+  #conn.commit()
 
   # Playlist Data
   cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
@@ -103,7 +105,7 @@ def get_data(database):
       data[x] = ratings_list[count]
     count += 1 
 
-  plt.bar(name_list, ratings_list, align='center', color = ['magenta', 'red', 'indigo', 'blue', 'orange', 'pink', 'purple', 'violet', 'green', 'black', 'gray', 'yellow', 'navy', 'teal', 'aquamarine', 'cyan', 'lime', 'blueviolet', 'lavender', 'plum'])
+  plt.bar(name_list[0:5], ratings_list[0:5], align='center', color = ['magenta', 'red', 'indigo', 'blue', 'orange', 'pink', 'purple', 'violet', 'green', 'black', 'gray', 'yellow', 'navy', 'teal', 'aquamarine', 'cyan', 'lime', 'blueviolet', 'lavender', 'plum'])
   plt.ylabel('Rating')
   plt.xlabel('Restaurant Name')
   plt.title('Ratings of Amsterdam Restaurants')
@@ -129,7 +131,7 @@ def get_data(database):
       data[x] = times_list[count2]
     count2 += 1 
 
-  plt.bar(song_list, times_list, align='center', color = ['magenta', 'red', 'indigo', 'blue', 'orange', 'pink', 'purple', 'violet', 'green', 'black', 'gray', 'yellow', 'navy', 'teal', 'aquamarine', 'cyan', 'lime', 'blueviolet', 'lavender', 'plum'])
+  plt.bar(song_list[0:5], times_list[0:5], align='center', color = ['magenta', 'red', 'indigo', 'blue', 'orange', 'pink', 'purple', 'violet', 'green', 'black', 'gray', 'yellow', 'navy', 'teal', 'aquamarine', 'cyan', 'lime', 'blueviolet', 'lavender', 'plum'])
   plt.ylabel('Time')
   plt.xlabel('Song Name')
   plt.title('Length of Songs')

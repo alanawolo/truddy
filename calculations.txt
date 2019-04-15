@@ -1,0 +1,9 @@
+Calculations
+For the Yelp DATA: 
+    We recieved the top resturants based on rating in Amsterdam, 
+    to find out where we want to eat on our trip. We then calculated the average rating 
+    for these top dinner resturants in Amsterdamn. 
+
+For the Itunes DATA:
+    First we recieved the top twenty songs having to do with trabel from Itunes.
+    We then calculated the average length of each song that had to do with travel. 
