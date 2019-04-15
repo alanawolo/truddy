@@ -28,10 +28,8 @@ def get_data(database):
   cur.execute('CREATE TABLE IF NOT EXISTS Currency (date TEXT, USD INTEGER, EUR INTEGER)')
   cur.execute('SELECT * FROM Currency')
   data = cur.fetchall()
-  date = '2000-01-01'
-  url = 'http://data.fixer.io/api/{}?access_key=b771d2bacf30d6e399a7a45e4693bdfa&symbols=USD,EUR'.format(date)
-  r2 = requests.get(url)
-  print(r2.json())
+  r2 = requests.get("https://app.ticketmaster.com/discovery/v2/events.json?countryCode=NL&apikey=J0BKwKyQOuE9li4P2HDD1J4Ho2JWug95")
+  print(len(r2.json()))
   #for x in r2.json():
     #date = x[4]
     #for y in x['rates']:
