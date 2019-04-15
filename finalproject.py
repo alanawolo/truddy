@@ -32,7 +32,7 @@ def get_data(database):
   print(r2.json())
   for x in r2.json()['rates'].items():
     print(x)
-    base = x['base']
+    base = x['base'] #have to change this stuff yolo
     date = x['date']
     rates = x['rates'][0]
     cur.execute('INSERT INTO Events (base, date, rates) VALUES (?, ?, ?)', (base, date, rates))
