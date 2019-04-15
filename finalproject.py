@@ -24,20 +24,18 @@ def get_data(database):
     cur.execute('INSERT OR IGNORE INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
   conn.commit()
 
-  # StubHub Data
-  # cur.execute('CREATE TABLE IF NOT EXISTS Events (name TEXT, venue OBJECT, minPrice STRING)')
-  # cur.execute('SELECT * FROM Events')
-  # data = cur.fetchall()
-  # params_dict = {'city': 'Amsterdam', 'country': 'Netherlands', 'sort': 'minPrice', 'rows': 20}
-  # r2 = requests.get('https://api.stubhub.com/sellers/search/events/v3', params = params_dict)
-  # print(len(r2.json()))
-  # print(r2.json())
-  # for x in r2.json():
-  #   name = x['']
-  #   venue = x['']
-  #   minPrice = x['']
-  #   cur.execute('INSERT INTO Events (name, venue, minPrice) VALUES (?, ?, ?)', (name, venue, minPrice))
-  # conn.commit()
+  # currency Data
+  cur.execute('CREATE TABLE IF NOT EXISTS Currency (base TEXT, date TEXT, rates INTEGER)')
+  cur.execute('SELECT * FROM Currency')
+  data = cur.fetchall()
+  r2 = requests.get('http://data.fixer.io/api/latest?access_key=b771d2bacf30d6e399a7a45e4693bdfa&symbols=USD,EUR')
+  print(r2.json())
+  for x in r2.json():
+    base = x['base']
+    date = x['date']
+    rates = x['rates'][0]
+    cur.execute('INSERT INTO Events (base, date, rates) VALUES (?, ?, ?)', (base, date, rates))
+  conn.commit()
 
   # Playlist Data
   cur.execute('CREATE TABLE IF NOT EXISTS Playlist (artistName TEXT, trackName TEXT, trackTimeMillis INT)')
