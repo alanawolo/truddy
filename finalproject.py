@@ -24,18 +24,17 @@ def get_data(database):
     cur.execute('INSERT OR IGNORE INTO Restaurants (name, rating, reviews, country) VALUES (?, ?, ?, ?)', (restaurant_name, rating, reviews, city))
   conn.commit()
 
-  # currency Data
-  cur.execute('CREATE TABLE IF NOT EXISTS Currency (date TEXT, USD INTEGER, EUR INTEGER)')
+  # Event Data
+  cur.execute('CREATE TABLE IF NOT EXISTS Events (name TEXT, priceMin Integer, priceMax Integer)')
   cur.execute('SELECT * FROM Currency')
   data = cur.fetchall()
-  r2 = requests.get("https://app.ticketmaster.com/discovery/v2/events.json?countryCode=NL&apikey=J0BKwKyQOuE9li4P2HDD1J4Ho2JWug95")
+  r2 = requests.get("https://app.ticketmaster.com/discovery/v2/events?apikey=J0BKwKyQOuE9li4P2HDD1J4Ho2JWug95&size=20&countryCode=NL")
   print(len(r2.json()))
   #for x in r2.json():
-    #date = x[4]
-    #for y in x['rates']:
-      #usd = y[0]
-      #eur = x[5][1]
-    #cur.execute('INSERT INTO Events (date, USD, EUR) VALUES (?, ?, ?)', (date, usd, eur))
+      #name = 
+      #priceMin = 
+      #priceMax
+    #cur.execute('INSERT INTO Events (name, priceMin, priceMax) VALUES (?, ?, ?)', (name, priceMin, priceMax))
   #conn.commit()
 
   # Playlist Data
