@@ -28,9 +28,10 @@ def get_data(database):
   cur.execute('CREATE TABLE IF NOT EXISTS Currency (base TEXT, date TEXT, rates INTEGER)')
   cur.execute('SELECT * FROM Currency')
   data = cur.fetchall()
-  r2 = requests.get('http://data.fixer.io/api/latest?access_key=b771d2bacf30d6e399a7a45e4693bdfa&symbols=USD,EUR')
+  r2 = requests.get('http://data.fixer.io/api/latest?access_key=b771d2bacf30d6e399a7a45e4693bdfa&symbols=USD,EUR,AUD,CAD,MXN')
   print(r2.json())
-  for x in r2.json():
+  for x in r2.json()['rates'].items():
+    print(x)
     base = x['base']
     date = x['date']
     rates = x['rates'][0]
