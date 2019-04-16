@@ -37,7 +37,7 @@ def get_data(database):
     print(priceMin)
     priceMax = x['priceRanges'][1]['max']
     print(priceMax)
-    cur.execute('INSERT INTO Events (name, priceMin, priceMax) VALUES (?, ?, ?)', (name, priceMin, priceMax))
+    cur.execute('INSERT OR IGNORE INTO Events (name, priceMin, priceMax) VALUES (?, ?, ?)', (name, priceMin, priceMax))
   conn.commit()
 
   # Playlist Data
