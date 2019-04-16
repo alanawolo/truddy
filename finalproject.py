@@ -26,15 +26,17 @@ def get_data(database):
 
   # Event Data
   cur.execute('CREATE TABLE IF NOT EXISTS Events (name TEXT, priceMin Integer, priceMax Integer)')
-  cur.execute('SELECT * FROM Currency')
+  cur.execute('SELECT * FROM Events')
   data = cur.fetchall()
   r2 = requests.get("https://app.ticketmaster.com/discovery/v2/events?apikey=J0BKwKyQOuE9li4P2HDD1J4Ho2JWug95&size=20&countryCode=NL")
-  print(r2.json()['_embedded'])
-  for x in r2.json()['_embedded']:
+  for x in r2.json()['_embedded']['events']:
     print(x)
-    name = x['events'][0]
-    priceMin = x['priceRanges'][0][2]
-    priceMax = x['priceRanges'][0][3]
+    name = x['name']
+    print(name)
+    priceMin = x['priceRanges'][1]['min']
+    print(priceMin)
+    priceMax = x['priceRanges'][1]['max']
+    print(priceMax)
     cur.execute('INSERT INTO Events (name, priceMin, priceMax) VALUES (?, ?, ?)', (name, priceMin, priceMax))
   conn.commit()
 
