@@ -29,11 +29,12 @@ def get_data(database):
   cur.execute('SELECT * FROM Currency')
   data = cur.fetchall()
   r2 = requests.get("https://app.ticketmaster.com/discovery/v2/events?apikey=J0BKwKyQOuE9li4P2HDD1J4Ho2JWug95&size=20&countryCode=NL")
+  print(r2.json()['_embedded'])
   for x in r2.json()['_embedded']:
     print(x)
-    name = ['events'][0]
-    priceMin = ['priceRanges'][0][2]
-    priceMax = ['priceRanges'][0][3]
+    name = x['events'][0]
+    priceMin = x['priceRanges'][0][2]
+    priceMax = x['priceRanges'][0][3]
     cur.execute('INSERT INTO Events (name, priceMin, priceMax) VALUES (?, ?, ?)', (name, priceMin, priceMax))
   conn.commit()
 
