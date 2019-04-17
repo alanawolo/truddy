@@ -30,7 +30,6 @@ def get_data(database):
   data = cur.fetchall()
   r2 = requests.get("https://app.ticketmaster.com/discovery/v2/events?apikey=J0BKwKyQOuE9li4P2HDD1J4Ho2JWug95&size=20&countryCode=NL")
   for x in r2.json()['_embedded']['events']:
-    print(x)
     name = x['name']
     priceMin = x['priceRanges'][1]['min']
     priceMax = x['priceRanges'][1]['max']
@@ -51,13 +50,15 @@ def get_data(database):
   conn.commit()
   
   db_data = cur.execute('SELECT * FROM Restaurants, Playlist')
-  
+  return 'Database Created' 
   
   
 # # CALCULATIONS
-
+def calulations(database):
 # # Restaurants
 # average rating of a Restaurant in Amsterdam = ?
+  conn = sqlite3.connect(database)
+  cur = conn.cursor()
   cur.execute('SELECT rating FROM Restaurants')
   total = 0
   count = 0
@@ -99,12 +100,14 @@ def get_data(database):
     count += 1
   average_song_length_in_seconds = (total/count)
   print(average_song_length_in_seconds)
-
+  return 'Calculations Done'
 
 
 # PLOTS!!!!!!!
-
+def plots(database):
 # Restaurants plot ... plotting the ratings of the restaurants
+  conn = sqlite3.connect(database)
+  cur = conn.cursor()
   cur.execute('SELECT name FROM Restaurants')
   name_list = []
   for name in cur:
@@ -171,7 +174,7 @@ def get_data(database):
   plt.ylabel('Minimum Price')
   plt.xlabel('Event Name')
   plt.title('Minimum Prices of Events')
-  plt.xticks(rotation=30)
+  plt.xticks(rotation=20)
   plt.savefig('Prices_event.png')
   plt.show() 
   
@@ -184,11 +187,11 @@ def get_data(database):
   plt.xlabel('Minimim Price')
   plt.ylabel('Maximum Price')
   plt.title('Minimum vs Maximum Prices of Events in Amsterdam')
-  plt.xticks(rotation=60)
   plt.savefig('Event_plot.png')
   plt.show()
 
+  return 'Plots Made'
 
-
-  return 'Database Created'
 print(get_data('final_project.sqlite'))
+print(calulations('final_project.sqlite'))
+print(plots('final_project.sqlite'))
