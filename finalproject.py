@@ -126,6 +126,7 @@ def get_data(database):
   plt.ylabel('Rating')
   plt.xlabel('Restaurant Name')
   plt.title('Ratings of Amsterdam Restaurants')
+  plt.xticks(rotation=30)
   plt.savefig('Restaurant_Plot.png')
   plt.show()  
 
@@ -152,10 +153,11 @@ def get_data(database):
   plt.ylabel('Time')
   plt.xlabel('Song Name')
   plt.title('Length of Songs')
+  plt.xticks(rotation=30)
   plt.savefig('Playlist_Plot.png')
   plt.show() 
 
-# Events plot ... plotting the max price for top 5 events
+# Events plot ... plotting the min price for top 5 events
   cur.execute('SELECT name FROM Events')
   name_list = []
   for name in cur:
@@ -165,22 +167,26 @@ def get_data(database):
   min_list = []
   for min_price in cur:
     min_list.append(min_price[0])
-
-  data = {}
-  count3 = 0
-  for x in song_list:
-    if x not in data:
-      data[x] = times_list[count2]
-    count3 += 1 
-
-  plt.bar(song_list[0:5], times_list[0:5], align='center', color = ['magenta', 'red', 'indigo', 'blue', 'orange', 'pink', 'purple', 'violet', 'green', 'black', 'gray', 'yellow', 'navy', 'teal', 'aquamarine', 'cyan', 'lime', 'blueviolet', 'lavender', 'plum'])
-  plt.ylabel('Time')
-  plt.xlabel('Song Name')
-  plt.title('Length of Songs')
-  plt.savefig('Playlist_Plot.png')
+  plt.bar(name_list[0:5], min_list[0:5], align='center', color = ['lime', 'blueviolet', 'lavender', 'plum'])
+  plt.ylabel('Minimum Price')
+  plt.xlabel('Event Name')
+  plt.title('Minimum Prices of Events')
+  plt.xticks(rotation=30)
+  plt.savefig('Prices_event.png')
   plt.show() 
-
-
+  
+# Events plot ... plotting the max price vs min prive
+  cur.execute('SELECT priceMax FROM Events')
+  max_list = []
+  for max_price in cur:
+    max_list.append(max_price[0])
+  plt.scatter(min_list,max_list)
+  plt.xlabel('Minimim Price')
+  plt.ylabel('Maximum Price')
+  plt.title('Minimum vs Maximum Prices of Events in Amsterdam')
+  plt.xticks(rotation=60)
+  plt.savefig('Event_plot.png')
+  plt.show()
 
 
 
