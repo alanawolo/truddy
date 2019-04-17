@@ -4,12 +4,12 @@ For the Yelp DATA:
     to find out where we want to eat on our trip. We then calculated the average rating 
     for these top dinner resturants in Amsterdamn. 
     The average rating for dinner resturants in Amsterdam is 4.5
-For the Itunes DATA:
-    First we recieved the top twenty songs having to do with trabel from Itunes.
-    We then calculated the average length of each song that had to do with travel. 
-    The average length of a song having to do with travel in seconds is 262.2267. 
 For the TicketMaster DATA:
     First we recieved the MinPrice and MaxPrice for twenty events in Amsterdam.
     We then calculated the average minprice and the average maxprice for all of the events.
     The average minimum price for an event in/near Amsterdam is 257.055 EUR
     The average maximum price for an event in/near Amsterdam is 266.1675 EUR
+For the Itunes DATA:
+    First we recieved the top twenty songs having to do with trabel from Itunes.
+    We then calculated the average length of each song that had to do with travel. 
+    The average length of a song having to do with travel in seconds is 262.2267. 
