@@ -3,7 +3,7 @@
 
 import requests
 import sqlite3
-import spotifyinfo, yelpinfo
+import itunesinfo, yelpinfo
 import matplotlib.pyplot as plt
 
 
